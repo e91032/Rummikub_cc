@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#e7ddcb">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111917">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>拉密</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --room:#e7ddcb; --panel:#d5c8ae;
+  --felt:#2b5b4e; --felt-edge:#20463c;
+  --ink:#2a2419; --ink-soft:#6c6150;
+  --on-felt:#eae2cf; --on-felt-soft:#9fb6ac;
+  --line:rgba(40,30,15,.16);
+  --brass:#c2922f;
+  --shadow:0 2px 4px rgba(20,14,4,.28);
+  --tile-face:linear-gradient(177deg,#fffbf0 0%,#f7eeda 46%,#e9dcc0 100%);
+}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --room:#111917; --panel:#1a2622; --felt:#1c443a; --felt-edge:#12302a;
+    --ink:#ece3d2; --ink-soft:#9aa9a1; --line:rgba(255,255,255,.12);
+    --shadow:0 2px 5px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --room:#111917; --panel:#1a2622; --felt:#1c443a; --felt-edge:#12302a;
+  --ink:#ece3d2; --ink-soft:#9aa9a1; --line:rgba(255,255,255,.12);
+  --shadow:0 2px 5px rgba(0,0,0,.5);
+}
+html{height:100%}
+body{
+  min-height:100%;margin:0;background:var(--room);color:var(--ink);
+  font-family:"Noto Sans TC","Archivo",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;
+  display:flex;flex-direction:column;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+.wrap{width:100%;max-width:760px;margin:0 auto;padding:26px 16px 32px;flex:1;
+  display:flex;flex-direction:column;justify-content:center}
+
+.head{text-align:center;margin-bottom:22px}
+.mark{display:flex;justify-content:center;gap:5px;margin-bottom:14px}
+.mark .tile{
+  width:40px;height:54px;border-radius:7px;background:var(--tile-face);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -3px 0 rgba(90,68,30,.18),var(--shadow);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--tc,#2f2f2f);
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:22px;line-height:1;letter-spacing:-.03em;
+}
+.mark .tile:nth-child(1){--tc:#bd3527;transform:rotate(-5deg)}
+.mark .tile:nth-child(2){--tc:#1d5c9e;transform:rotate(2deg) translateY(-3px)}
+.mark .tile:nth-child(3){--tc:#33322f;transform:rotate(-1deg)}
+.mark .tile:nth-child(4){--tc:#cf7a15;transform:rotate(5deg) translateY(-2px)}
+.mark .tile i{width:9px;height:9px;border:1.6px solid currentColor;border-radius:50%;
+  margin-top:4px;opacity:.5;font-style:normal}
+h1{font-size:30px;font-weight:700;margin:0 0 4px;letter-spacing:.02em}
+.head p{margin:0;color:var(--ink-soft);font-size:13.5px}
+
+.menu{display:grid;gap:11px}
+.card{
+  display:flex;align-items:center;gap:15px;
+  padding:16px 17px;border-radius:13px;
+  background:var(--panel);border:1px solid var(--line);
+  box-shadow:0 1px 0 var(--line);
+  transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;
+}
+.card:hover{border-color:var(--brass);transform:translateY(-2px);box-shadow:0 6px 16px rgba(20,14,4,.16)}
+.card:active{transform:translateY(0)}
+.card .pips{display:flex;gap:3px;flex:none;width:58px;justify-content:center}
+.card .pip{
+  width:11px;height:11px;border-radius:50%;
+  background:var(--felt);opacity:.9;
+}
+.card .pip.g{background:var(--brass)}
+.card .pip.o{background:transparent;box-shadow:inset 0 0 0 1.6px var(--felt);opacity:.42}
+.card .body{flex:1;min-width:0}
+.card h2{margin:0;font-size:16.5px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.card h2 em{font-style:normal;font-family:"Archivo",sans-serif;font-size:11.5px;font-weight:700;
+  color:var(--brass);border:1px solid rgba(194,146,47,.5);border-radius:999px;padding:1px 8px;letter-spacing:.04em}
+.card p{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.card .go{flex:none;color:var(--ink-soft);font-size:19px;line-height:1}
+.card:hover .go{color:var(--brass)}
+
+.note{
+  margin:20px 0 0;padding:13px 15px;border-radius:11px;
+  border:1px dashed var(--line);
+  font-size:12px;color:var(--ink-soft);line-height:1.7;
+}
+.note b{color:var(--ink);font-weight:700}
+footer{text-align:center;padding:0 16px 22px;font-size:11.5px;color:var(--ink-soft);opacity:.75}
+
+@media (max-width:560px){
+  .wrap{padding:20px 13px 26px}
+  h1{font-size:26px}
+  .mark .tile{width:35px;height:47px;font-size:19px}
+  .card{padding:14px;gap:12px}
+  .card .pips{width:46px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="mark" aria-hidden="true">
+      <div class="tile">7<i></i></div>
+      <div class="tile">8<i></i></div>
+      <div class="tile">9<i></i></div>
+      <div class="tile">10<i></i></div>
+    </div>
+    <h1>拉密</h1>
+    <p>順子、同數組、鬼牌。選一個玩法開始。</p>
+  </div>
+
+  <nav class="menu">
+    <a class="card" href="solo.html">
+      <span class="pips" aria-hidden="true"><i class="pip"></i></span>
+      <span class="body">
+        <h2>單人挑戰 <em>1 人</em></h2>
+        <p>一個人把 14 張牌打完，記錄最少回合數。想練手感或純粹排牌就選這個。</p>
+      </span>
+      <span class="go" aria-hidden="true">›</span>
+    </a>
+
+    <a class="card" href="duel.html">
+      <span class="pips" aria-hidden="true"><i class="pip"></i><i class="pip"></i></span>
+      <span class="body">
+        <h2>雙人對戰 <em>2 人</em></h2>
+        <p>一個人開房拿房號，另一個人輸入房號。兩台裝置直接連線，先出完手牌的人贏。</p>
+      </span>
+      <span class="go" aria-hidden="true">›</span>
+    </a>
+
+    <a class="card" href="table.html">
+      <span class="pips" aria-hidden="true"><i class="pip g"></i><i class="pip"></i><i class="pip"></i><i class="pip o"></i></span>
+      <span class="body">
+        <h2>多人牌桌 <em>3–6 人</em></h2>
+        <p>房主開桌，其他人用房號進來，輪流出牌並累計分數。5 人以上自動換成兩副牌。</p>
+      </span>
+      <span class="go" aria-hidden="true">›</span>
+    </a>
+  </nav>
+
+  <p class="note">
+    <b>連線是怎麼運作的：</b>開房的人就是牌桌，整副牌都在他的瀏覽器裡，其他人直接連過去，牌不經過任何伺服器，也沒有帳號。只有一開始「牽線」會用到 PeerJS 的公開服務交換連線資訊。房主一關頁面，那局就沒了。
+  </p>
+</div>
+<footer>手機、平板、電腦都能玩 · 同一個網址分享給朋友就好</footer>
+</body>
+</html>
